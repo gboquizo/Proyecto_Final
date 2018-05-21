@@ -10,6 +10,7 @@ Se contempla, además, que las colecciones de contenidos del tipo videojuego pue
 2.-Estructura de datos.
 La estructura de datos para el presente proyecto es una estructura de contenidos de tipo arrayList, que pueden ser de diversa tipología (videojuegos, películas, series…).
 La finalidad de la estructura de datos es permitir la realización de varias acciones:
+
 •	Añadir un contenido al catálogo: videojuego, película, serie…
 •	Eliminar un contenido del catálogo: por índice en el mismo o identificador.
 •	Mostrar un listado de videojuegos, de películas, de series, etc…
