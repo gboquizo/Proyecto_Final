@@ -48,6 +48,7 @@ Clase hija, presenta los siguientes campos:
 *	Estilo de videojuego.
 *	Prestado a (indica el nombre de la persona que lo tiene en préstamo).
 *	Fecha préstamo del videojuego.
+*	Fecha devolución del videojuego.
 
 Clase Película:
 Clase hija, presenta los siguientes campos:
