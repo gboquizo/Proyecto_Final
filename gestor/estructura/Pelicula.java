@@ -9,6 +9,7 @@ import gestor.estructura.excepciones.TituloNoValidoException;
 import gestor.estructura.excepciones.UbicacionNoValidaException;
 
 /**
+ * 
  * Clase que permite la creación de una Pelicula.
  * @author Guillermo Boquizo Sánchez
  * @version 1.0
@@ -96,6 +97,21 @@ public class Pelicula extends Contenido implements Serializable, Clasificable {
 		setDuracion(duracion);
 		setPremios(premios);
 	}
+	
+	public Pelicula(int id,
+			String titulo, String tituloOriginal, Ubicacion ubicacion, String estado, LocalDate fechaDeAlta,
+			double calificacion, String director, Genero genero, Idioma idioma, LocalDate annoEstreno, Soporte soporte,
+			int visionado, int duracion, int premios) throws CalificacionNoValidaException, TituloNoValidoException, UbicacionNoValidaException, FechaNoValidaException {
+		super(id,titulo, tituloOriginal, ubicacion, estado, fechaDeAlta, calificacion);
+		setDirector(director);
+		setGenero(genero);
+		setIdioma(idioma);
+		setAnnoEstreno(annoEstreno);
+		setSoporte(soporte);
+		setVisionado(visionado);
+		setDuracion(duracion);
+		setPremios(premios);
+	}
 
 	/**
 	 * Método que permite establecer el director.
@@ -109,108 +125,125 @@ public class Pelicula extends Contenido implements Serializable, Clasificable {
 	 * Método que permite obtener el director.
 	 * @return director el director a obtener.
 	 */
-	String getDirector() {
+	public String getDirector() {
 		return director;
 	}
 
 	/**
-	 * @param genero the genero to set
+	 * Método que permite establecer el género.
+	 * @param genero género a establecer.
 	 */
 	private void setGenero(Genero genero) {
 		this.genero = genero;
 	}
 
 	/**
-	 * @return the genero
+	 * Método que permite obtener el género.
+	 * @return genero el género a obtener.
 	 */
-	Genero getGenero() {
+	public Genero getGenero() {
 		return genero;
 	}
-
+	
 	/**
-	 * @param idioma the idioma to set
+	 * Método que permite establecer el idioma.
+	 * @param idioma el idioma a establecer.
 	 */
 	private void setIdioma(Idioma idioma) {
 		this.idioma = idioma;
 	}
 	
 	/**
-	 * @return the idioma
+	 * Método que permite obtener el idioma.
+	 * @return idioma el idioma a obtener.
 	 */
-	Idioma getIdioma() {
+	public Idioma getIdioma() {
 		return idioma;
 	}
 
 	/**
-	 * @param annoEstreno the annoEstreno to set
+	 * Método que permite establecer el año de estreno
+	 * @param annoEstreno el año de estreno a establecer.
 	 */
 	private void setAnnoEstreno(LocalDate annoEstreno) {
 		this.annoEstreno = annoEstreno;
 	}
 	
 	/**
-	 * @return the annoEstreno
+	 * Método que permite obtener el año de estreno.
+	 * @return annoEstreno el año de estreno a obtener.
 	 */
-	LocalDate getAnnoEstreno() {
+	public LocalDate getAnnoEstreno() {
 		return annoEstreno;
 	}
 
 	/**
-	 * @param soporte the soporte to set
+	 * Método que permite establecer el soporte.
+	 * @param soporte el soporte a establecer.
 	 */
 	private void setSoporte(Soporte soporte) {
 		this.soporte = soporte;
 	}
 
 	/**
-	 * @return the soporte
+	 * Método que permite obtener el soporte.
+	 * @return soporte el soporte a obtener.
 	 */
-	Soporte getSoporte() {
+	public Soporte getSoporte() {
 		return soporte;
 	}
 
 	/**
-	 * @param visionado the visionado to set
+	 * Método que permite establecer la cantidad de visionados.
+	 * @param visionado cantidad de visionados a establecer.
 	 */
 	private void setVisionado(int visionado) {
 		this.visionado = visionado;
 	}
 	
 	/**
-	 * @return the visionado
+	 * Método que permite obtener la cantidad de visionados.
+	 * @return visionado cantidad de visionados a obtener.
 	 */
-	int getVisionado() {
+	public int getVisionado() {
 		return visionado;
 	}
 
 	/**
-	 * @param duracion the duracion to set
+	 * Método que permite obtener la duración en minutos de la película.
+	 * @param duracion duración a establecer.
 	 */
 	private void setDuracion(int duracion) {
 		this.duracion = duracion;
 	}
 	
 	/**
-	 * @return the duracion
+	 * Método que permite obtener la duración en minutos de la película.
+	 * @return duracion la duración a obtener.
 	 */
-	int getDuracion() {
+	public int getDuracion() {
 		return duracion;
 	}
 
 	/**
-	 * @param premios the premios to set
+	 * Método que permite establecer la cantidad de premios de la película.
+	 * @param premios los premios a establecer.
 	 */
 	private void setPremios(int premios) {
 		this.premios = premios;
 	}
 	
 	/**
-	 * @return the premios
+	 * Método que permite obtener la cantidad de premios de la película.
+	 * @return premios los premios a obtener.
 	 */
-	int getPremios() {
+	public int getPremios() {
 		return premios;
 	}
-
+	
+	/**
+	 * Método que permite calcular la calificación de la película.
+	 */
 	public void calcularCalificacion() {
 		
 	}

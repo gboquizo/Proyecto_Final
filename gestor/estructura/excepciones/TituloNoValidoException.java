@@ -1,6 +1,7 @@
 package gestor.estructura.excepciones;
 
 /**
+ * 
  * Clase para controlar la excepción si un título no es válido.
  * @author Guillermo Boquizo Sánchez
  * @version 1.0

@@ -10,6 +10,7 @@ import gestor.estructura.excepciones.TituloNoValidoException;
 import gestor.estructura.excepciones.UbicacionNoValidaException;
 
 /**
+ * 
  * Clase que permite la creación de un contenido.
  * @author Guillermo Boquizo Sánchez.
  * @version 1.0
@@ -25,7 +26,7 @@ public class Contenido implements Serializable, Comparable<Contenido>, Clasifica
 	/**
 	 * Contador estático que permite generar un id autoincrementable.
 	 */
-	private static int contador = 1;
+	static int contador = 1;
 	
 	/**
 	 * Id unívoco para el contenido.
@@ -129,8 +130,8 @@ public class Contenido implements Serializable, Comparable<Contenido>, Clasifica
 	 * @param titulo
 	 * @throws TituloNoValidoException
 	 */
-	public Contenido(String titulo) throws TituloNoValidoException {
-		setTitulo(titulo);
+	public Contenido(String titulo)   {
+		this.titulo = titulo;
 	}
 
 	/**
@@ -142,7 +143,13 @@ public class Contenido implements Serializable, Comparable<Contenido>, Clasifica
 	}
 	
 	private void setId(int id) {
-		this.id = id;
+		this.id = contador++;
+	}
+	
+	public static int resetearID() {
+		 int id = contador;
+		   contador = 0;
+		   return id;
 	}
 
 	/**
@@ -150,7 +157,7 @@ public class Contenido implements Serializable, Comparable<Contenido>, Clasifica
 	 * 
 	 * @return id el id a establecer.
 	 */
-	int getId() {
+	public int getId() {
 		return id;
 	}
 
@@ -162,14 +169,14 @@ public class Contenido implements Serializable, Comparable<Contenido>, Clasifica
 	private void setTitulo(String titulo) throws TituloNoValidoException {
 		if (!comprobarTitulo(titulo))
 			throw new TituloNoValidoException("\n\tTítulo no válido");
-		this.titulo = titulo.trim();
+		this.titulo = titulo;
 	}
 
 	/**
 	 * Método para obtener el título.
 	 * @return titulo el título obtenido.
 	 */
-	String getTitulo() {
+	public String getTitulo() {
 		return titulo;
 	}
 	
@@ -192,7 +199,7 @@ public class Contenido implements Serializable, Comparable<Contenido>, Clasifica
 	 * Método para obtener el título original
 	 * @return tituloOriginal el título original obtenido.
 	 */
-	String getTituloOriginal() {
+	public String getTituloOriginal() {
 		return tituloOriginal;
 	}
 
@@ -211,7 +218,7 @@ public class Contenido implements Serializable, Comparable<Contenido>, Clasifica
 	 * Método para obtener la ubicación.
 	 * @return ubicacion la ubicacion obtenida.
 	 */
-	Ubicacion getUbicacion() {
+	public Ubicacion getUbicacion() {
 		return ubicacion;
 	}
 
@@ -227,7 +234,7 @@ public class Contenido implements Serializable, Comparable<Contenido>, Clasifica
 	 * Método para obtener el estado.
 	 * @return estado el estado obtenido.
 	 */
-	String getEstado() {
+	public String getEstado() {
 		return estado;
 	}
 
@@ -237,33 +244,39 @@ public class Contenido implements Serializable, Comparable<Contenido>, Clasifica
 	 * @throws FechaNoValidaException 
 	 */
 	private void setfechaDeAlta(LocalDate fechaDeAlta) throws FechaNoValidaException {
-		if(fechaDeAlta == null)
-			throw new FechaNoValidaException("\n\t La fecha no es válida.");
+		if (fechaDeAlta == null)
+			throw new FechaNoValidaException("La fecha de alta no es válida");
 		this.fechaDeAlta = fechaDeAlta;
+			
 	}
 
 	/**
 	 * Método para obtener la fecha de alta
-	 * @return fechaDeAlta la 
+	 * @return fechaDeAlta la fecha de alta a obtener.
 	 */
-	LocalDate getFechaDeAlta() {
+	public LocalDate getFechaDeAlta() {
 		return fechaDeAlta;
 	}
+	
+	
 
 	/**
-	 * @param calificacion
-	 * @throws CalificacionNoValidaException 
+	 * Método que permite establecer la calificación.
+	 * @param calificacion calificación a establecer.
+	 * @throws CalificacionNoValidaException  si la calificación no está comprendida entre 0 y 10.
 	 */
 	private void setCalificacion(double calificacion) throws CalificacionNoValidaException {
 		if(calificacion <= 0 || calificacion > 10)
 			throw new CalificacionNoValidaException("Error, calificación inválida. Debe estar comprendida entre 0 y 10");
 		this.calificacion = calificacion;
 	}
+	
 
 	/**
-	 * @return the calificacion
+	 * Método que permite obtener la calificación.
+	 * @return calificacion la calificación a obtener.
 	 */
-	double getCalificacion() {
+	public double getCalificacion() {
 		return calificacion;
 	}
 
@@ -272,46 +285,37 @@ public class Contenido implements Serializable, Comparable<Contenido>, Clasifica
 
 	}
 
-	@Override
-	public int compareTo(Contenido arg0) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
+	/**
+	 * hashCode para implementar el contains de coche.
 	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + id;
 		result = prime * result + ((titulo == null) ? 0 : titulo.hashCode());
 		return result;
 	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
+	
+	/**
+	 * Equals para implementar el contains de coche.
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
-		if (obj == null) {
+		if (obj == null)
 			return false;
-		}
-		if (!(obj instanceof Contenido)) {
+		if (getClass() != obj.getClass())
 			return false;
-		}
 		Contenido other = (Contenido) obj;
-		if (titulo == null) {
-			if (other.titulo != null) {
-				return false;
-			}
-		} else if (!titulo.equalsIgnoreCase(other.titulo)) {
+		if (id != other.id)
 			return false;
-		}
+		if (titulo == null) {
+			if (other.titulo != null)
+				return false;
+		} else if (!titulo.equals(other.titulo))
+			return false;
 		return true;
 	}
 
@@ -336,5 +340,11 @@ public class Contenido implements Serializable, Comparable<Contenido>, Clasifica
 		builder.append(". \n\tCalificación:");
 		builder.append(getCalificacion());
 		return builder.toString();
+	}
+
+	@Override
+	public int compareTo(Contenido o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

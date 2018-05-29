@@ -1,6 +1,7 @@
 package gestor.estructura.excepciones;
 
 /**
+ * 
  * Clase para controlar la excepción si una película ya existe.
  * @author Guillermo Boquizo Sánchez
  * @version 1.0

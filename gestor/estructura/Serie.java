@@ -12,6 +12,13 @@ import gestor.estructura.excepciones.TemporadaYaExisteException;
 import gestor.estructura.excepciones.TituloNoValidoException;
 import gestor.estructura.excepciones.UbicacionNoValidaException;
 
+/**
+ * 
+ * Clase que permite la creación de una Serie.
+ * @author Guillermo Boquizo Sánchez
+ * @version 1.0
+ *
+ */
 public class Serie extends Contenido implements Serializable, Clasificable {
 
 	private static final long serialVersionUID = 1L;
@@ -79,51 +86,30 @@ public class Serie extends Contenido implements Serializable, Clasificable {
 		return temporadas.size();
 	}
 
-	/**
-	 * @return the medio
-	 */
 	String getMedio() {
 		return medio;
 	}
 
-	/**
-	 * @return the sinopsis
-	 */
 	String getSinopsis() {
 		return sinopsis;
 	}
 
-	/**
-	 * @return the genero
-	 */
 	Genero getGenero() {
 		return genero;
 	}
 
-	/**
-	 * @return the idioma
-	 */
 	Idioma getIdioma() {
 		return idioma;
 	}
 
-	/**
-	 * @return the visualizaciones
-	 */
 	int getVisualizaciones() {
 		return visualizaciones;
 	}
-
-	/**
-	 * @param medio
-	 */
+	
 	private void setMedio(String medio) {
 		this.medio = medio;
 	}
 
-	/**
-	 * @param sinopsis
-	 */
 	private void setSinopsis(String sinopsis) {
 		this.sinopsis = sinopsis;
 	}
@@ -134,7 +120,6 @@ public class Serie extends Contenido implements Serializable, Clasificable {
 
 	private void setIdioma(Idioma idioma) {
 		this.idioma = idioma;
-
 	}
 
 	private void setVisualizaciones(int visualizaciones) {
@@ -153,7 +138,7 @@ public class Serie extends Contenido implements Serializable, Clasificable {
 		try {
 			temporadas.remove(id);
 		} catch (IndexOutOfBoundsException e) {
-			throw new TemporadaNoExisteException("La temporada no existe.");
+			throw new TemporadaNoExisteException("\n\tLa temporada no existe.");
 		}
 	}
 

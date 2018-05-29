@@ -12,7 +12,6 @@ import gestor.estructura.Idioma;
 import gestor.estructura.Serie;
 import gestor.estructura.Soporte;
 import gestor.estructura.Ubicacion;
-import gestor.estructura.Videojuego;
 import gestor.estructura.excepciones.CalificacionNoValidaException;
 import gestor.estructura.excepciones.ContenidoNoExisteException;
 import gestor.estructura.excepciones.FechaNoValidaException;
@@ -28,10 +27,10 @@ import gestor.utiles.Teclado;
 public class TestGestor {
 	private static Menu menuPrincipal = new Menu("Catálogo de contenidos multimedia",
 			new String[] { "Alta de contenido", "Baja de contenido", "Buscar contenido", "Mostrar catalogo",
-					"Contar contenidos del catálogo", "Gestión de series","Ficheros" });
+					"Contar contenidos del catálogo", "Gestión de series", "Ficheros" });
 	private static Menu menuAltas = new Menu("Menú de altas",
 			new String[] { "Alta de película", "Alta de videojuego", "Alta de serie", "Alta predefinidos" });
-	private static Menu menuBajas = new Menu("Menú de bajas", new String[] { "Baja por índice", "Baja por id" });
+	private static Menu menuBajas = new Menu("Menú de bajas", new String[] { "Baja por nombre", "Baja por id" });
 	private static Menu menuListar = new Menu("Menú listar",
 			new String[] { "Catálogo completo", "Listar películas", "Listar videojuegos", "Listar series" });
 	private static Menu menuBuscar = new Menu("Menú buscar", new String[] { "Por título", "Por id" });
@@ -50,7 +49,9 @@ public class TestGestor {
 
 	private static File file;
 	private static boolean modificado;
-	
+	private static boolean prestado;
+	private static Serie serie;
+
 	public static void main(String[] args) {
 		int opcion;
 		do {
@@ -60,7 +61,7 @@ public class TestGestor {
 	}
 
 	/**
-	 * Realiza la opción del menú
+	 * Realiza la opción del menú.
 	 * 
 	 * @param opcion
 	 *            la opción a realizar.
@@ -110,32 +111,31 @@ public class TestGestor {
 	private static void realizarOpcionMenuSeries(int opcion) {
 		switch (opcion) {
 		case 1:
-			//annadirTemporada();
+			annadirTemporada();
 			break;
 		case 2:
-			//eliminarTemporada();
+			// eliminarTemporada();
 			break;
 		case 3:
-			//buscarTemporada();
+			// buscarTemporada();
 			break;
 		case 4:
-			
 			break;
-	
+		default:
+			return;
 		}
-
 	}
-	
-//	private static void annadirTemporada() {
-//		try {
-//			serie.annadirTemporada(pedirFecha("Fecha de inicio de la serie"),
-//					pedirFecha("Fecha de finalización de la serie"));
-//			setModificado(true);
-//			System.out.println("\n\tTemporada añadida con éxito.");
-//		} catch (Exception e) {
-//			System.err.println(e.getMessage() + "\n\tNo se ha podido añadir la temporada en la serie");
-//		}
-//	}
+
+	private static void annadirTemporada() {
+		try {
+			serie.annadirTemporada(pedirFecha("Fecha de inicio de la serie"),
+					pedirFecha("Fecha de finalización de la serie"));
+			setModificado(true);
+			System.out.println("\n\tTemporada añadida con éxito.");
+		} catch (Exception e) {
+			System.err.println(e.getMessage() + "\n\tNo se ha podido añadir la temporada en la serie");
+		}
+	}
 
 	/**
 	 * Método que permite añadir elementos al catálogo.
@@ -164,12 +164,12 @@ public class TestGestor {
 				cargarPredefinidos();
 				System.out.println("\n\tContenido añadido con éxito");
 			} catch (CalificacionNoValidaException | PeliculaYaExisteException | VideojuegoYaExisteException
-					| TituloNoValidoException | SerieYaExisteException | TemporadaVaciaException | UbicacionNoValidaException | FechaNoValidaException e) {
+					| TituloNoValidoException | SerieYaExisteException | TemporadaVaciaException
+					| UbicacionNoValidaException | FechaNoValidaException e) {
 				System.err.println(e.getMessage());
 			}
 			break;
 		default:
-			System.out.println("\n\tHasta pronto.");
 			return;
 		}
 	}
@@ -199,8 +199,8 @@ public class TestGestor {
 					Teclado.leerDecimal("Calificación"), Teclado.leerCadena("Compañía del videojuego"),
 					pedirFormato("Formato del videojuego"), Teclado.leerCadena("Plataforma del videojuego"),
 					Teclado.leerCadena("Estilo del videojuego"), Teclado.leerEntero("Nº de veces jugado"),
-					Teclado.leerEntero("Horas de juego"), Videojuego.getPrestado(), Teclado.leerCadena("Prestado a"),
-					pedirFecha("Fecha de préstamo"));
+					Teclado.leerEntero("Horas de juego"),  prestado, Teclado.leerCadena("Prestado a"),
+					pedirFecha("Fecha de préstamo"),pedirFecha("Fecha de devolución"));
 			setModificado(true);
 			System.out.println("\n\tVideojuego añadido con éxito.");
 		} catch (Exception e) {
@@ -236,22 +236,44 @@ public class TestGestor {
 	}
 
 	private static void realizarOpcionMenuBajas(int opcion) {
+		if (opcion != menuBajas.SALIR && catalogo.vacio()) {
+			System.err.println("\n\tCatálogo vacío.");
+			return;
+		}
 		switch (opcion) {
 		case 1:
 			try {
-				catalogo.eliminar(Teclado.leerCadena("Titulo del contenido a borrar:"));
+				System.out.println("Contenido de baja en el catálogo:"
+						+ catalogo.eliminar(pedirTitulo()));
+				 System.out.println(catalogo);
 			} catch (ContenidoNoExisteException e) {
-				System.err.println(e.getMessage());
+				System.err.println(e.getMessage() + " No se ha podido dar de baja el contenido.");
 			}
 			break;
 		case 2:
 			try {
-				catalogo.eliminarId(Teclado.leerEntero("\n\tIntroduzca el id del contenido a borrar:"));
+				System.out.println("Contenido de baja en el catálogo:" + catalogo.eliminarId(pedirId()));
 			} catch (ContenidoNoExisteException e) {
 				System.err.println(e.getMessage());
 			}
 			break;
+		default:
+			return;
 		}
+	}
+
+	/**
+	 * @return
+	 */
+	private static int pedirId() {
+		return Teclado.leerEntero("\n\tIntroduzca el id del contenido a borrar:");
+	}
+
+	/**
+	 * @return
+	 */
+	private static String pedirTitulo() {
+		return Teclado.leerCadena("Introduce el título del contenido: ");
 	}
 
 	/**
@@ -288,6 +310,8 @@ public class TestGestor {
 			// Listar series
 			System.out.println(catalogo.listarSeries());
 			break;
+		default:
+			return;
 		}
 	}
 
@@ -320,11 +344,15 @@ public class TestGestor {
 				System.err.println(e.getMessage());
 			}
 			break;
+		default:
+			return;
 		}
+
 	}
 
 	private static void cargarPredefinidos() throws CalificacionNoValidaException, PeliculaYaExisteException,
-			VideojuegoYaExisteException, TituloNoValidoException, SerieYaExisteException, TemporadaVaciaException, UbicacionNoValidaException, FechaNoValidaException {
+			VideojuegoYaExisteException, TituloNoValidoException, SerieYaExisteException, TemporadaVaciaException,
+			UbicacionNoValidaException, FechaNoValidaException {
 		catalogo.annadirPelicula("La guerra de las galaxias: Una nueva esperanza", "Star Wars: A New Hope",
 				Ubicacion.DELL, "Vista", LocalDate.of(2018, 05, 14), 5.0, "George Lucas", Genero.CIENCIA_FICCION,
 				Idioma.DUAL, LocalDate.of(1977, 05, 25), Soporte.DIGITAL, 999, 124, 2);
@@ -338,7 +366,7 @@ public class TestGestor {
 
 		catalogo.annadirVideojuego("Super Mario Bros 3", "Super Mario Bros 3", Ubicacion.RASP, "jugado",
 				LocalDate.of(2018, 05, 14), 5.0, "Nintendo", Formato.CARTUCHO, "N.E.S", "Plataformas scroll lateral",
-				999, 999, false, null, null);
+				999, 999, false, null, null,null);
 
 		catalogo.annadirSerie("Juego de tronos", "Game of Thrones", Ubicacion.NUBE, "vista", LocalDate.of(2018, 05, 14),
 				5.0, "Netflix", "La guerra en Poniente ha empezado", 8, Genero.ACCION, Idioma.DUAL, 2);
@@ -404,7 +432,7 @@ public class TestGestor {
 	 * Método que permite contar el número de elementos que contiene el catálogo
 	 */
 	private static void contar() {
-		System.out.println("\n\tNúmero de elementos en el catalogo: " + catalogo.tamanno());
+		System.out.println("\n\tNúmero de elementos en el catalogo: " + catalogo.size());
 
 	}
 

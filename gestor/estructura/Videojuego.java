@@ -8,6 +8,13 @@ import gestor.estructura.excepciones.FechaNoValidaException;
 import gestor.estructura.excepciones.TituloNoValidoException;
 import gestor.estructura.excepciones.UbicacionNoValidaException;
 
+/**
+ * 
+ * Clase que permite la creación de un videojuego.
+ * @author Guillermo Boquizo Sánchez.
+ * @version 1.0
+ *
+ */
 public class Videojuego extends Contenido implements Serializable, Clasificable {
 
 	private static final long serialVersionUID = 1L;
@@ -24,13 +31,15 @@ public class Videojuego extends Contenido implements Serializable, Clasificable 
 
 	private int horasJuego;
 
-	private static boolean prestado;
+	private boolean prestado;
 
 	private String prestadoA;
 
 	private LocalDate fechaPrestamo;
 
 	private String mensaje = "";
+	
+	private LocalDate fechaDevolucion;
 
 	/**
 	 * 
@@ -56,7 +65,7 @@ public class Videojuego extends Contenido implements Serializable, Clasificable 
 	 */
 	public Videojuego(String titulo, String tituloOriginal, Ubicacion ubicacion, String estado, LocalDate fechaDeAlta,
 			double calificacion, String compannia, Formato formato, String plataforma, String estilo, int totalJuegos,
-			int horasJuego, boolean prestado, String prestadoA, LocalDate fechaPrestamo)
+			int horasJuego, boolean prestado, String prestadoA, LocalDate fechaPrestamo, LocalDate fechaDevolucion)
 			throws CalificacionNoValidaException, TituloNoValidoException, UbicacionNoValidaException, FechaNoValidaException {
 		super(titulo, tituloOriginal, ubicacion, estado, fechaDeAlta, calificacion);
 		setCompannia(compannia);
@@ -68,12 +77,13 @@ public class Videojuego extends Contenido implements Serializable, Clasificable 
 		setPrestado(prestado);
 		setPrestadoA(prestadoA);
 		setFechaPrestamo(fechaPrestamo);
+		setFechaDevolucion(fechaDevolucion);
 	}
 
 	/**
 	 * @return the compannia
 	 */
-	protected String getCompannia() {
+	public String getCompannia() {
 		return compannia;
 	}
 
@@ -88,7 +98,7 @@ public class Videojuego extends Contenido implements Serializable, Clasificable 
 	/**
 	 * @return the formato
 	 */
-	protected Formato getFormato() {
+	public Formato getFormato() {
 		return formato;
 	}
 
@@ -103,7 +113,7 @@ public class Videojuego extends Contenido implements Serializable, Clasificable 
 	/**
 	 * @return the plataforma
 	 */
-	protected String getPlataforma() {
+	public String getPlataforma() {
 		return plataforma;
 	}
 
@@ -118,7 +128,7 @@ public class Videojuego extends Contenido implements Serializable, Clasificable 
 	/**
 	 * @return the estilo
 	 */
-	protected String getEstilo() {
+	public String getEstilo() {
 		return estilo;
 	}
 
@@ -133,7 +143,7 @@ public class Videojuego extends Contenido implements Serializable, Clasificable 
 	/**
 	 * @return the numJuego
 	 */
-	protected int getNumJuego() {
+	public int getTotalJuegos() {
 		return totalJuegos;
 	}
 
@@ -148,7 +158,7 @@ public class Videojuego extends Contenido implements Serializable, Clasificable 
 	/**
 	 * @return the horasJuego
 	 */
-	protected int getHorasJuego() {
+	public int getHorasJuego() {
 		return horasJuego;
 	}
 
@@ -163,7 +173,7 @@ public class Videojuego extends Contenido implements Serializable, Clasificable 
 	/**
 	 * @return the prestadoA
 	 */
-	protected String getPrestadoA() {
+	public String getPrestadoA() {
 		return prestadoA;
 	}
 
@@ -180,23 +190,25 @@ public class Videojuego extends Contenido implements Serializable, Clasificable 
 	/**
 	 * @return the fechaPrestamo
 	 */
-	protected LocalDate getFechaPrestamo() {
+	public LocalDate getFechaPrestamo() {
 		return fechaPrestamo;
 	}
 
 	/**
 	 * @param fechaPrestamo
 	 *            the fechaPrestamo to set
+	 * @throws FechaNoValidaException 
 	 */
-	protected void setFechaPrestamo(LocalDate fechaPrestamo) {
-		if(fechaPrestamo == null)
-		this.fechaPrestamo = fechaPrestamo;
+	protected void setFechaPrestamo(LocalDate fechaPrestamo) throws FechaNoValidaException {
+		if (prestado == false)
+			fechaPrestamo = LocalDate.of(0000, 1, 1);
+		this.fechaPrestamo = fechaPrestamo;	
 	}
 
 	/**
 	 * @return the prestado
 	 */
-	public static boolean getPrestado() {
+	public boolean getPrestado() {
 		return prestado;
 	}
 
@@ -205,11 +217,23 @@ public class Videojuego extends Contenido implements Serializable, Clasificable 
 	 *            the prestado to set
 	 */
 	private void setPrestado(boolean prestado) {
-		Videojuego.prestado = prestado;
+		this.prestado = prestado;
+	}
+	
+	public LocalDate getFechaDevolucion() {
+		return fechaDevolucion;
+	}
+
+	private void setFechaDevolucion(LocalDate fechaDevolucion) {
+		this.fechaDevolucion = fechaDevolucion;
 	}
 
 	public void calcularCalificacion() {
 
+	}
+	
+	public int compareTo(Videojuego o) {
+		return (int) Math.round((o.getFechaDevolucion().compareTo(this.getFechaDevolucion())));
 	}
 
 	/*
@@ -221,7 +245,7 @@ public class Videojuego extends Contenido implements Serializable, Clasificable 
 	public String toString() {
 		return super.toString() + "\n" + "\n\tVideojuego: " + "\n\tCompañía: " + getCompannia() + ". \n\tFormato:"
 				+ getFormato() + ". \n\tPlataforma:" + getPlataforma() + ". \n\tEstilo:" + getEstilo()
-				+ ". \n\tVeces jugado:" + getNumJuego() + ". \n\tTotal de horas jugadas:" + getHorasJuego()
+				+ ". \n\tVeces jugado:" + getTotalJuegos() + ". \n\tTotal de horas jugadas:" + getHorasJuego()
 				+ ". \n\tPrestado:" + getPrestado() + ". \n\tPrestado a:" + getPrestadoA() + ". \n\tFecha de préstamo: "
 				+ getFechaPrestamo() + mensaje +"\n";
 	}

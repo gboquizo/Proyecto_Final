@@ -1,6 +1,7 @@
 package gestor.estructura;
 
 /**
+ * 
  * Enumeración que define el idioma en el que se encuentran las películas y
  * series.
  * 

@@ -1,6 +1,7 @@
 package gestor.estructura.excepciones;
 
 /**
+ * 
  * Clase para controlar la excepción si un capitulo ya existe.
  * @author Guillermo Boquizo Sánchez
  * @version 1.0

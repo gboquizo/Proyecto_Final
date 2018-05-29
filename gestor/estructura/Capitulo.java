@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import gestor.estructura.excepciones.CalificacionNoValidaException;
 
 /**
+ * 
  * Clase que permite la creación de un capítulo.
  * @author Guillermo Boquizo Sánchez.
  * @version 1.0
@@ -139,6 +140,11 @@ public class Capitulo implements Serializable, Clasificable {
 		this.duracion = duracion;
 	}
 	
+	@Override
+	public void calcularCalificacion() {
+		
+	}	
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -147,10 +153,4 @@ public class Capitulo implements Serializable, Clasificable {
 		return "Capitulo [fechaEmision=" + fechaEmision + ", descripcion=" + descripcion + ", nombre=" + nombre
 				+ ", nombreOriginal=" + nombreOriginal + ", duracion=" + duracion + "]";
 	}
-
-	@Override
-	public void calcularCalificacion() {
-		// TODO Auto-generated method stub
-		
-	}	
 }

@@ -9,10 +9,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-
 import gestor.estructura.Catalogo;
 
 /**
+ * 
  * Clase que contiene métodos necesarios para operar con ficheros.
  * 
  * @author Guillermo Boquizo Sánchez
@@ -31,7 +31,7 @@ public class Fichero implements Serializable {
 	 * @param archivo el archivo a leer
 	 * @throws IOException
 	 * @throws ClassNotFoundException
-	 * @return Gestion.concesionario el concesionario leído.
+	 * @return Gestion.catalogo el catalogo leído.
 	 */
 	public static Catalogo leer(File archivo) throws IOException, ClassNotFoundException {
 		try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(archivo))) {
@@ -45,7 +45,6 @@ public class Fichero implements Serializable {
 	 * Método que guarda un objeto pidiendo el nombre de archivo a crear.
 	 * 
 	 * @param objeto objeto a guardar.
-	 * 
 	 * @param nombre del fichero.
 	 * @throws IOException Excepción lanzada al finalizar el flujo
 	 */

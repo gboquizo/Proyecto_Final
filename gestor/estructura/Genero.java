@@ -1,6 +1,7 @@
 package gestor.estructura;
 
 /**
+ * 
  * Enumeración que define los géneros de las películas y series.
  * 
  * @author Guillermo Boquizo Sánchez

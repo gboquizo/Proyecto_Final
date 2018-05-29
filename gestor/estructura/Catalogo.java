@@ -3,6 +3,7 @@ package gestor.estructura;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.ListIterator;
 
 import gestor.estructura.excepciones.CalificacionNoValidaException;
@@ -16,7 +17,9 @@ import gestor.estructura.excepciones.UbicacionNoValidaException;
 import gestor.estructura.excepciones.VideojuegoYaExisteException;
 
 /**
+ * 
  * Clase envoltorio de Contenido
+ * 
  * @author Guillermo Boquizo Sánchez
  * @version 1.0
  *
@@ -24,48 +27,68 @@ import gestor.estructura.excepciones.VideojuegoYaExisteException;
 public class Catalogo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * Campo para el nombre del catálogo.
 	 */
 	private final String NOMBRE = "Gestor de contenidos Guillermo Boquizo Sánchez";
-	
+
 	/**
 	 * Campo Arraylist que contiene objetos de tipo Contenido.
 	 */
 	private ArrayList<Contenido> catalogo = new ArrayList<Contenido>();
-	
+
 	/**
 	 * Campo Arraylist que contiene objetos de tipo Contenido para los iteradores.
 	 */
 	private ArrayList<Contenido> lista;
-	
+
 	/**
 	 * Método que permite añadir una película al catálogo.
-	 * @param titulo título de la película.
-	 * @param tituloOriginal título original de la película.
-	 * @param ubicacion ubicación en la que se encuentra la película.
-	 * @param estado estado de visualización de la película.
-	 * @param fechaDeAlta fecha de alta en el sistema de la película.
-	 * @param calificacion calificación de la película.
-	 * @param director director de la película.
-	 * @param genero genero de la película.
-	 * @param idioma idioma de la película.
-	 * @param annoEstreno año de estreno de la película.
-	 * @param soporte soporte en el que se encuentra almacenada la película.
-	 * @param visionado nº de veces que se ha visionado la película.
-	 * @param duracion duración (en minutos de la película).
-	 * @param premios premios importantes que posee la película.
-	 * @throws CalificacionNoValidaException si la calificación es inválida.
-	 * @throws PeliculaYaExisteException si la película ya existe en el catálogo.
-	 * @throws TituloNoValidoException si el título no cumple con un patrón predefinido.
-	 * @throws UbicacionNoValidaException 
-	 * @throws FechaNoValidaException 
+	 * @param i 
+	 * 
+	 * @param titulo
+	 *            título de la película.
+	 * @param tituloOriginal
+	 *            título original de la película.
+	 * @param ubicacion
+	 *            ubicación en la que se encuentra la película.
+	 * @param estado
+	 *            estado de visualización de la película.
+	 * @param fechaDeAlta
+	 *            fecha de alta en el sistema de la película.
+	 * @param calificacion
+	 *            calificación de la película.
+	 * @param director
+	 *            director de la película.
+	 * @param genero
+	 *            genero de la película.
+	 * @param idioma
+	 *            idioma de la película.
+	 * @param annoEstreno
+	 *            año de estreno de la película.
+	 * @param soporte
+	 *            soporte en el que se encuentra almacenada la película.
+	 * @param visionado
+	 *            nº de veces que se ha visionado la película.
+	 * @param duracion
+	 *            duración (en minutos de la película).
+	 * @param premios
+	 *            premios importantes que posee la película.
+	 * @throws CalificacionNoValidaException
+	 *             si la calificación es inválida.
+	 * @throws PeliculaYaExisteException
+	 *             si la película ya existe en el catálogo.
+	 * @throws TituloNoValidoException
+	 *             si el título no cumple con un patrón predefinido.
+	 * @throws UbicacionNoValidaException
+	 * @throws FechaNoValidaException
 	 */
 	public void annadirPelicula(String titulo, String tituloOriginal, Ubicacion ubicacion, String estado,
 			LocalDate fechaDeAlta, double calificacion, String director, Genero genero, Idioma idioma,
 			LocalDate annoEstreno, Soporte soporte, int visionado, int duracion, int premios)
-			throws CalificacionNoValidaException, PeliculaYaExisteException, TituloNoValidoException, UbicacionNoValidaException, FechaNoValidaException {
+			throws CalificacionNoValidaException, PeliculaYaExisteException, TituloNoValidoException,
+			UbicacionNoValidaException, FechaNoValidaException {
 		Pelicula pelicula = new Pelicula(titulo, tituloOriginal, ubicacion, estado, fechaDeAlta, calificacion, director,
 				genero, idioma, annoEstreno, soporte, visionado, duracion, premios);
 		if (catalogo.contains(pelicula))
@@ -73,50 +96,103 @@ public class Catalogo implements Serializable {
 		catalogo.add(pelicula);
 	}
 	
+	public void annadirPelicula(int id,String titulo, String tituloOriginal, Ubicacion ubicacion, String estado,
+			LocalDate fechaDeAlta, double calificacion, String director, Genero genero, Idioma idioma,
+			LocalDate annoEstreno, Soporte soporte, int visionado, int duracion, int premios)
+			throws CalificacionNoValidaException, PeliculaYaExisteException, TituloNoValidoException,
+			UbicacionNoValidaException, FechaNoValidaException {
+		Pelicula pelicula = new Pelicula(id,titulo, tituloOriginal, ubicacion, estado, fechaDeAlta, calificacion, director,
+				genero, idioma, annoEstreno, soporte, visionado, duracion, premios);
+		if (catalogo.contains(pelicula))
+			throw new PeliculaYaExisteException("La película ya está en el catálogo");
+		catalogo.add(pelicula);
+	}
+
 	/**
 	 * Método que permite añadir un videojuego al catálogo.
-	 * @param titulo título del videojuego.
-	 * @param tituloOriginal titulo original del videojuego.
-	 * @param ubicacion ubicación del videojuego.
-	 * @param estado estado de juego del videojuego.
-	 * @param fechaDeAlta fecha de alta en el sistema del videojuego.
-	 * @param calificacion calificación del videojuego.
-	 * @param compannia compañía del videojuego.
-	 * @param formato formato en el que se almacena el videojuego.
-	 * @param plataforma plataforma para la que se edita el videojuego.
-	 * @param estilo estilo del videojuego.
-	 * @param totalJuegos nº de veces jugado el videojuego.
-	 * @param horasJuego nº de horas de juego del videojuego.
-	 * @param prestado estado de préstamo del videojuego.
-	 * @param prestadoA persona a la que se realiza el préstamo del videojuego.
-	 * @param fechaPrestamo fecha de préstamo del videojuego.
-	 * @throws CalificacionNoValidaException si la calificación es inválida.
-	 * @throws VideojuegoYaExisteException si el videojuego ya existe en el catálogo.
-	 * @throws TituloNoValidoException si el título no cumple con un patrón predefinido.
-	 * @throws UbicacionNoValidaException 
-	 * @throws FechaNoValidaException 
+	 * 
+	 * @param titulo
+	 *            título del videojuego.
+	 * @param tituloOriginal
+	 *            titulo original del videojuego.
+	 * @param ubicacion
+	 *            ubicación del videojuego.
+	 * @param estado
+	 *            estado de juego del videojuego.
+	 * @param fechaDeAlta
+	 *            fecha de alta en el sistema del videojuego.
+	 * @param calificacion
+	 *            calificación del videojuego.
+	 * @param compannia
+	 *            compañía del videojuego.
+	 * @param formato
+	 *            formato en el que se almacena el videojuego.
+	 * @param plataforma
+	 *            plataforma para la que se edita el videojuego.
+	 * @param estilo
+	 *            estilo del videojuego.
+	 * @param totalJuegos
+	 *            nº de veces jugado el videojuego.
+	 * @param horasJuego
+	 *            nº de horas de juego del videojuego.
+	 * @param prestado
+	 *            estado de préstamo del videojuego.
+	 * @param prestadoA
+	 *            persona a la que se realiza el préstamo del videojuego.
+	 * @param fechaPrestamo
+	 *            fecha de préstamo del videojuego.
+	 * @param fechaDevolucion 
+	 * @throws CalificacionNoValidaException
+	 *             si la calificación es inválida.
+	 * @throws VideojuegoYaExisteException
+	 *             si el videojuego ya existe en el catálogo.
+	 * @throws TituloNoValidoException
+	 *             si el título no cumple con un patrón predefinido.
+	 * @throws UbicacionNoValidaException
+	 * @throws FechaNoValidaException
 	 */
 	public void annadirVideojuego(String titulo, String tituloOriginal, Ubicacion ubicacion, String estado,
 			LocalDate fechaDeAlta, double calificacion, String compannia, Formato formato, String plataforma,
-			String estilo, int totalJuegos, int horasJuego, boolean prestado, String prestadoA, LocalDate fechaPrestamo)
-			throws CalificacionNoValidaException, VideojuegoYaExisteException, TituloNoValidoException, UbicacionNoValidaException, FechaNoValidaException {
+			String estilo, int totalJuegos, int horasJuego, boolean prestado, String prestadoA, LocalDate fechaPrestamo, LocalDate fechaDevolucion)
+			throws CalificacionNoValidaException, VideojuegoYaExisteException, TituloNoValidoException,
+			UbicacionNoValidaException, FechaNoValidaException {
 		Videojuego videojuego = new Videojuego(titulo, tituloOriginal, ubicacion, estado, fechaDeAlta, calificacion,
-				compannia, formato, plataforma, estilo, totalJuegos, horasJuego, prestado, prestadoA, fechaPrestamo);
+				compannia, formato, plataforma, estilo, totalJuegos, horasJuego, prestado, prestadoA, fechaPrestamo, fechaDevolucion);
 		if (catalogo.contains(videojuego))
-			throw new VideojuegoYaExisteException("El videojuego ya está en el catálogo");
+			throw new VideojuegoYaExisteException("\n\tEl videojuego ya está en el catálogo");
 		catalogo.add(videojuego);
 	}
 	
+	public void annadirVideojuego(int id,String titulo, String tituloOriginal, Ubicacion ubicacion, String estado,
+			LocalDate fechaDeAlta, double calificacion, String compannia, Formato formato, String plataforma,
+			String estilo, int totalJuegos, int horasJuego, boolean prestado, String prestadoA, LocalDate fechaPrestamo, LocalDate fechaDevolucion)
+			throws CalificacionNoValidaException, VideojuegoYaExisteException, TituloNoValidoException,
+			UbicacionNoValidaException, FechaNoValidaException {
+		Videojuego videojuego = new Videojuego(titulo, tituloOriginal, ubicacion, estado, fechaDeAlta, calificacion,
+				compannia, formato, plataforma, estilo, totalJuegos, horasJuego, prestado, prestadoA, fechaPrestamo,fechaDevolucion);
+		if (catalogo.contains(videojuego))
+			throw new VideojuegoYaExisteException("\n\tEl videojuego ya está en el catálogo");
+		catalogo.add(videojuego);
+	}
+
 	/**
 	 * 
 	 * Método que permite añadir una serie al catálogo.
-	 * @param titulo título de la serie.
-	 * @param tituloOriginal titulo original de la serie.
-	 * @param ubicacion ubicación de la serie.
-	 * @param estado estado de visionado de la serie.
-	 * @param fechaDeAlta fecha de alta en el sistema de la serie.
-	 * @param calificacion calificación de la serie.
-	 * @param medio medio en el que se emite la serie.
+	 * 
+	 * @param titulo
+	 *            título de la serie.
+	 * @param tituloOriginal
+	 *            titulo original de la serie.
+	 * @param ubicacion
+	 *            ubicación de la serie.
+	 * @param estado
+	 *            estado de visionado de la serie.
+	 * @param fechaDeAlta
+	 *            fecha de alta en el sistema de la serie.
+	 * @param calificacion
+	 *            calificación de la serie.
+	 * @param medio
+	 *            medio en el que se emite la serie.
 	 * @param sinopsis
 	 * @param numTemporadas
 	 * @param genero
@@ -126,30 +202,27 @@ public class Catalogo implements Serializable {
 	 * @throws CalificacionNoValidaException
 	 * @throws TituloNoValidoException
 	 * @throws TemporadaVaciaException
-	 * @throws UbicacionNoValidaException 
-	 * @throws FechaNoValidaException 
+	 * @throws UbicacionNoValidaException
+	 * @throws FechaNoValidaException
 	 */
 	public void annadirSerie(String titulo, String tituloOriginal, Ubicacion ubicacion, String estado,
-			LocalDate fechaDeAlta, double calificacion, String medio, String sinopsis, int numTemporadas,
-			Genero genero, Idioma idioma, int visualizaciones)
-			throws SerieYaExisteException, CalificacionNoValidaException, TituloNoValidoException, TemporadaVaciaException, UbicacionNoValidaException, FechaNoValidaException {
+			LocalDate fechaDeAlta, double calificacion, String medio, String sinopsis, int numTemporadas, Genero genero,
+			Idioma idioma, int visualizaciones) throws SerieYaExisteException, CalificacionNoValidaException,
+			TituloNoValidoException, TemporadaVaciaException, UbicacionNoValidaException, FechaNoValidaException {
 		Serie serie = new Serie(titulo, tituloOriginal, ubicacion, estado, fechaDeAlta, calificacion, medio, sinopsis,
 				numTemporadas, genero, idioma, visualizaciones);
 		if (catalogo.contains(serie))
-			throw new SerieYaExisteException("La serie ya está en el catálogo");
+			throw new SerieYaExisteException("\n\tLa serie ya está en el catálogo");
 		catalogo.add(serie);
 	}
 
-	public void eliminar(String titulo) throws ContenidoNoExisteException {
-		try {
-			for (int i = 0; i < tamanno(); i++) {
-				if (catalogo.get(i).getTitulo().equals(titulo))
-					catalogo.remove(catalogo.get(i));
-			}
-		} catch (IndexOutOfBoundsException e) {
-			throw new ContenidoNoExisteException("El contenido no existe.");
+	public Contenido eliminar(String titulo) throws ContenidoNoExisteException {
+		Contenido contenido = getContenido(titulo);
+		if (contenido == null) {
+			throw new ContenidoNoExisteException("\nEl contenido no existe en este catálogo con ese título.");
 		}
-
+		catalogo.remove(contenido);
+		return contenido;
 	}
 
 	/**
@@ -158,12 +231,54 @@ public class Catalogo implements Serializable {
 	 * @param id
 	 * @throws ContenidoNoExisteException
 	 */
-	public void eliminarId(int id) throws ContenidoNoExisteException {
+	public Contenido eliminarId(int id) throws ContenidoNoExisteException {
+		Contenido contenido = getContenido(id);
 		try {
-			catalogo.remove(id);
+			if(contenido == null)
+				throw new ContenidoNoExisteException("\nEl contenido no existe en este catálogo con ese título.");
+			catalogo.remove(contenido);
+			return contenido;
 		} catch (IndexOutOfBoundsException e) {
-			throw new ContenidoNoExisteException("El contenido no existe.");
+			throw new ContenidoNoExisteException("\nEl contenido no existe en este catálogo con ese id.");
 		}
+	}
+
+	/**
+	 * Permite obtener un contenido por titulo.
+	 * 
+	 * @param titulo.
+	 *            titulo del contenido.
+	 * @return contenido El contenido con un titulo igual al pasado, o null en otro
+	 *         caso.
+	 *
+	 */
+	Contenido getContenido(String titulo) {
+		for (Contenido contenido : catalogo) {
+			if (contenido.getTitulo().equals(titulo))
+				return contenido;
+		}
+		return null;
+	}
+	
+	public void resetearID() {
+		Contenido.contador = 1;
+	}
+
+	/**
+	 * Permite obtener un contenido por titulo.
+	 * 
+	 * @param titulo.
+	 *            titulo del contenido.
+	 * @return contenido El contenido con un titulo igual al pasado, o null en otro
+	 *         caso.
+	 *
+	 */
+	Contenido getContenido(int ident) {
+		for (Contenido contenido : catalogo) {
+			if (contenido.getId() == ident)
+				return contenido;
+		}
+		return null;
 	}
 
 	/**
@@ -226,8 +341,6 @@ public class Catalogo implements Serializable {
 	 */
 	public ListIterator<Contenido> buscarPorTitulo(String titulo) throws ContenidoNoExisteException {
 		lista = new ArrayList<Contenido>();
-		if (lista.isEmpty())
-			throw new ContenidoNoExisteException("El contenido no existe.");
 		for (Contenido contenido : catalogo) {
 			if (contenido.getTitulo().equalsIgnoreCase(titulo))
 				lista.add(contenido);
@@ -240,7 +353,7 @@ public class Catalogo implements Serializable {
 	 * 
 	 * @param id
 	 * @return
-	 * @throws ContenidoNoExisteException
+	 * @throws ContenidoNoExisteExceptio
 	 */
 	public Contenido buscarPorID(int id) throws ContenidoNoExisteException {
 		try {
@@ -255,12 +368,33 @@ public class Catalogo implements Serializable {
 
 		}
 	}
-
-	public Contenido obtener(int i) {
-		return catalogo.get(i);
+	
+	public ListIterator<Contenido> listarVideojuegosPrestados() {
+		lista = new ArrayList<Contenido>();
+		for (Contenido contenido : catalogo) {
+			if (((Videojuego) contenido).getPrestado())
+				lista.add(contenido);
+		}
+		Collections.sort(lista);
+		return lista.listIterator();
+	}
+	
+	public ListIterator<Contenido> listarVencimientoPrestados() {
+		lista = new ArrayList<Contenido>();
+		LocalDate hoy = LocalDate.now();
+		for (Contenido contenido : catalogo) {
+			 if (((Videojuego) contenido).getFechaDevolucion() != null && ((Videojuego) contenido).getFechaDevolucion().equals(hoy)) {
+				lista.add(contenido);
+			}
+		}
+		return lista.listIterator();
 	}
 
-	public int tamanno() {
+	public Contenido get(int i) {
+		return catalogo.get(i);
+	}
+	
+	public int size() {
 		return catalogo.size();
 	}
 

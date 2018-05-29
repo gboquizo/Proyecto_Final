@@ -1,6 +1,7 @@
 package gestor.estructura;
 
 /**
+ * 
  * Enumeración que define los formatos de los videojuegos.
  * 
  * @author Guillermo Boquizo Sánchez
